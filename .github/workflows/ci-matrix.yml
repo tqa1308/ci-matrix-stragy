@@ -26,6 +26,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'maven'
 
     - name: Chạy Unit Test và Kiểm tra Code Coverage
       run: mvn verify
