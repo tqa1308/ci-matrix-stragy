@@ -27,6 +27,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Run Unit Tests
-      # Chạy test bằng Maven (nếu dùng Gradle thì đổi thành ./gradlew test)
-      run: mvn test
+    - name: Chạy Unit Test và Kiểm tra Code Coverage
+      run: mvn verify
+
+    - name: Lưu trữ báo cáo Code Coverage (Artifact)
+      uses: actions/upload-artifact@v4
+      if: always() 
+      with:
+        name: jacoco-report-${{ matrix.os }}
+        path: target/site/jacoco/
