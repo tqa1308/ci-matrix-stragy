@@ -1,0 +1,32 @@
+name: Multi-OS Testing Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    # 1. Cấu hình chạy trên biến matrix.os
+    runs-on: ${{ matrix.os }}
+    
+    # 2. Khai báo Matrix Strategy
+    strategy:
+      matrix:
+        # Khai báo mảng chứa các hệ điều hành cần test
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17 (hoặc phiên bản Java bạn đang dùng)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Run Unit Tests
+      # Chạy test bằng Maven (nếu dùng Gradle thì đổi thành ./gradlew test)
+      run: mvn test
